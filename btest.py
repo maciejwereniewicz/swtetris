@@ -2,9 +2,9 @@ import RPi.GPIO as GPIO
 import time
 
 # Set up GPIO
-GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
-GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+
 
 # List of pins connected to buttons
 
