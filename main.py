@@ -14,7 +14,8 @@ notes = {'C' : 523.25,
          'G' : 392.00, 
          'A' : 440.00, 
          'B' : 493.88, 
-         'Ab' : 415.30}
+         'Ab' : 415.30,
+		 'rotate': 100}
 
 tet1 = ["E","B","C","D","C","B","A",
 		  "A","C","E","D","C","B",
@@ -39,11 +40,12 @@ def play_sound(sound):
     p.ChangeFrequency(10)
 	
 
+
 def play_song(song):
 	for sound in song:
 		play_sound(sound)
 		
-for i in ['C','D','E','F','G','A','B','Ab']:
+for i in ['rotate']:
 	print(i)
 	play_sound(i)
 	sleep(0.5)
