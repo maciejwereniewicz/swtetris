@@ -169,7 +169,7 @@ def draw_text_middle(text, size, color, surface, index=0):
 def draw_text_middle_screen(text, size, color, surface, index=0):
     font = pygame.font.SysFont('comicsans', size, bold=True)
     label = font.render(text, 1, color)
-    surface.blit(label, (80,200+index*25))
+    surface.blit(label, (60+index*20,200+index*25))
 
 def draw_grid(surface, grid):
     sx = top_left_x
@@ -365,7 +365,7 @@ def main():
         draw_next_shape(next_piece, win)
 
         if paused:
-            draw_text_middle_screen("Paused", 40, (255, 255, 255), win)
+            draw_text_middle_screen("Paused", 40, (255, 255, 255), win,idex=1)
 
         pygame.display.update()
 
