@@ -17,7 +17,7 @@ K3_pin = 18
 button_pins = [K1_pin, K2_pin, K3_pin]
 button_state = {'K1': False, 'K2': False, 'K3': False}
 main = None
-
+started = False
 # Set up each pin as input with an internal pull-up resistor
 for pin in button_pins:
     GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -51,14 +51,22 @@ try:
         states = read_button_states()
 
         if states[K1_pin] == GPIO.LOW and button_state['K1'] == False:  # K1 button pressed
+            if not started:
+                print("No process to kill")
+                continue
             button_state['K1'] = True
             print("K1 pressed - Killing main.py script.")
             kill_main_script(main)
+            started = True
 
         if states[K2_pin] == GPIO.LOW and button_state['K2'] == False:  # K2 button pressed
+            if started:
+                print("Already started")
+                continue
             button_state['K2'] = True
             print("K2 pressed - Running main.py.")
             main = run_main_script()
+            started = False
 
         if states[K3_pin] == GPIO.LOW and button_state['K3'] == False:  # K3 button pressed
             button_state['K3'] = True
