@@ -21,16 +21,22 @@ GPIO.setup(rotate_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(select_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(start_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
+music_playing = False
+music_thread = None
+
 def play_music_in_background():
-    global music_thread
-    music_thread = threading.Thread(target=tetris_theme)
-    music_thread.daemon = True
-    music_thread.start()
+    global music_thread, music_playing
+    if not music_playing:  # If music is not already playing, start the thread
+        music_playing = True
+        music_thread = threading.Thread(target=tetris_theme)
+        music_thread.daemon = True
+        music_thread.start()
 
 def stop_music():
-    global music_thread
-    if music_thread.is_alive():
-        music_thread.join()
+    global music_playing
+    music_playing = False
+    if music_thread is not None:
+        music_thread.join()  # Wait for the thread to finish (or terminate)
 
 def check_gpio():
     left = not GPIO.input(left_pin)
@@ -365,6 +371,7 @@ def main():
             pygame.display.update()
             pygame.time.delay(3000)
             run = False
+
 win = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.display.set_caption('Tetris')
 
