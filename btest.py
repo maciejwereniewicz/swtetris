@@ -7,13 +7,14 @@ GPIO.setwarnings(False)
 
 # List of pins connected to buttons
 
-left_pin = 21
-right_pin = 22
-down_pin = 23
-rotate_pin = 24
+left_pin = 29
+right_pin = 31
+down_pin = 33
+rotate_pin = 35
 
-select_pin=28
-start_pin=29
+select_pin=38
+start_pin=40
+
 
 button_pins = [left_pin, right_pin, down_pin, rotate_pin, select_pin, start_pin]
 
