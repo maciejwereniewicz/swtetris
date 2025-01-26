@@ -34,10 +34,9 @@ def kill_main_script(main):
         main.kill()
 
 def restart_script():
-    # Open xterm and run the button_control.sh script
-    subprocess.Popen(['xterm', '-e', 'sh', '/home/malo/Desktop/swtetris/button_control.sh'])
+    # Open the default terminal and run the button_control.sh script
+    subprocess.Popen(['x-terminal-emulator', '-e', 'sh', '/home/malo/Desktop/swtetris/button_control.sh'])
     sys.exit()  # Exit the current instance of the script
-
 
 
     
