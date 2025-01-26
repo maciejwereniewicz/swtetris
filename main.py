@@ -15,12 +15,13 @@ p.start(50)
 
 def play_sound(sound):
     p.ChangeFrequency(notes[sound])
-    sleep(0.5)
+    sleep(0.35)
     p.ChangeFrequency(10)
 	
 
 def play_song(song):
 	for sound in song:
 		play_sound(sound)
+		
 while True:
 	play_song(tetris)
