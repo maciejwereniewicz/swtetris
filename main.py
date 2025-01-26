@@ -247,7 +247,7 @@ def main():
     grid = create_grid(locked_positions)
 
     change_piece = False
-    run = True
+    run = False
     paused = False
     current_piece = get_shape()
     next_piece = get_shape()
