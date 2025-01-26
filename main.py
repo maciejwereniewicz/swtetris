@@ -267,114 +267,123 @@ def main():
 
     # Start music at the beginning of the game
     play_music_in_background()
-
-    while run:
-        grid = create_grid(locked_positions)
-        fall_time += clock.get_rawtime()
-        time_elapsed += clock.get_rawtime()
-        move_time += clock.get_rawtime()
-        clock.tick()
-
-        if not paused:
-            ghost_piece = get_ghost_piece(current_piece, grid)
-            fall_speed = max(0.2, 0.5 - (score // 100) * 0.05)
-            current_fall_speed = fall_speed if not fast_drop else 0.03
-
-            if fall_time / 1000 >= current_fall_speed:
-                fall_time = 0
-                current_piece.y += 1
-                if not valid_space(current_piece, grid):
-                    current_piece.y -= 1
-                    change_piece = True
-
-        left, right, down, rotate, select, start = check_gpio()
-
-        if move_time > move_delay:
-            if left and not button_state['left']:
-                current_piece.x -= 1
-                if not valid_space(current_piece, grid):
-                    current_piece.x += 1
-                button_state['left'] = True
-                move_time = 0
-
-            if right and not button_state['right']:
-                current_piece.x += 1
-                if not valid_space(current_piece, grid):
-                    current_piece.x -= 1
-                button_state['right'] = True
-                move_time = 0
-
-            if down:
-                fast_drop = True
-            else:
-                fast_drop = False
-
-            if rotate and not button_state['rotate']:
-                target_rotation = (current_piece.rotation + 1) % len(current_piece.shape)
-                current_piece.rotation = target_rotation
-                if not valid_space(current_piece, grid):
-                    current_piece.rotation = (current_piece.rotation - 1) % len(current_piece.shape)
-                button_state['rotate'] = True
-                play_in_background(rotate_sound)
-
-            if select and not button_state['select']:
-                current_piece, next_piece = next_piece, current_piece
-                button_state['select'] = True
-
-            if down and not button_state['down']:
-                while valid_space(current_piece, grid):
-                    current_piece.y += 1
-                current_piece.y -= 1
-                button_state['down'] = True
-
-            if start and not button_state['start']:
-                paused = not paused
-                button_state['start'] = True
-
-        if not left:
-            button_state['left'] = False
-        if not right:
-            button_state['right'] = False
-        if not rotate:
-            button_state['rotate'] = False
-        if not select:
-            button_state['select'] = False
-        if not start:
-            button_state['start'] = False
-        if not down:
-            button_state['down'] = False
-
-        if not paused:
-            shape_pos = convert_shape_format(current_piece)
-            for i in range(len(shape_pos)):
-                x, y = shape_pos[i]
-                if y > -1:
-                    grid[y][x] = current_piece.color
-
-            if change_piece:
-                for pos in shape_pos:
-                    p = (pos[0], pos[1])
-                    locked_positions[p] = current_piece.color
-                current_piece = next_piece
-                next_piece = get_shape()
-                change_piece = False
-                score += clear_rows(grid, locked_positions) * 10
-
-        draw_window(win, grid, score, high_score, current_piece, time_elapsed)
-        draw_ghost_piece(ghost_piece, win)
-        draw_next_shape(next_piece, win)
-
-        if paused:
-            draw_text_middle_screen("Paused", 40, (255, 255, 255), win,1)
-
-        pygame.display.update()
-
-        if check_lost(locked_positions):
-            save_high_score(score)
-            draw_text_middle_screen("Try Again", 40, (255, 255, 255), win)
+    while True:
+        while (not run) or button_state['start']:
+            draw_text_middle_screen("Welcome", 40, (255, 255, 255), win)
             pygame.display.update()
-            pygame.time.delay(3000)
-            run = False
+            left, right, down, rotate, select, start = check_gpio()
+            if start and not button_state['start']:
+                run = True
+                button_state['start'] = True
+            if not start:
+                button_state['start'] = False
+        while run:
+            grid = create_grid(locked_positions)
+            fall_time += clock.get_rawtime()
+            time_elapsed += clock.get_rawtime()
+            move_time += clock.get_rawtime()
+            clock.tick()
+
+            if not paused:
+                ghost_piece = get_ghost_piece(current_piece, grid)
+                fall_speed = max(0.2, 0.5 - (score // 100) * 0.05)
+                current_fall_speed = fall_speed if not fast_drop else 0.03
+
+                if fall_time / 1000 >= current_fall_speed:
+                    fall_time = 0
+                    current_piece.y += 1
+                    if not valid_space(current_piece, grid):
+                        current_piece.y -= 1
+                        change_piece = True
+
+            left, right, down, rotate, select, start = check_gpio()
+
+            if move_time > move_delay:
+                if left and not button_state['left']:
+                    current_piece.x -= 1
+                    if not valid_space(current_piece, grid):
+                        current_piece.x += 1
+                    button_state['left'] = True
+                    move_time = 0
+
+                if right and not button_state['right']:
+                    current_piece.x += 1
+                    if not valid_space(current_piece, grid):
+                        current_piece.x -= 1
+                    button_state['right'] = True
+                    move_time = 0
+
+                if down:
+                    fast_drop = True
+                else:
+                    fast_drop = False
+
+                if rotate and not button_state['rotate']:
+                    target_rotation = (current_piece.rotation + 1) % len(current_piece.shape)
+                    current_piece.rotation = target_rotation
+                    if not valid_space(current_piece, grid):
+                        current_piece.rotation = (current_piece.rotation - 1) % len(current_piece.shape)
+                    button_state['rotate'] = True
+                    play_in_background(rotate_sound)
+
+                if select and not button_state['select']:
+                    current_piece, next_piece = next_piece, current_piece
+                    button_state['select'] = True
+
+                if down and not button_state['down']:
+                    while valid_space(current_piece, grid):
+                        current_piece.y += 1
+                    current_piece.y -= 1
+                    button_state['down'] = True
+
+                if start and not button_state['start']:
+                    paused = not paused
+                    button_state['start'] = True
+
+            if not left:
+                button_state['left'] = False
+            if not right:
+                button_state['right'] = False
+            if not rotate:
+                button_state['rotate'] = False
+            if not select:
+                button_state['select'] = False
+            if not start:
+                button_state['start'] = False
+            if not down:
+                button_state['down'] = False
+
+            if not paused:
+                shape_pos = convert_shape_format(current_piece)
+                for i in range(len(shape_pos)):
+                    x, y = shape_pos[i]
+                    if y > -1:
+                        grid[y][x] = current_piece.color
+
+                if change_piece:
+                    for pos in shape_pos:
+                        p = (pos[0], pos[1])
+                        locked_positions[p] = current_piece.color
+                    current_piece = next_piece
+                    next_piece = get_shape()
+                    change_piece = False
+                    score += clear_rows(grid, locked_positions) * 10
+
+            draw_window(win, grid, score, high_score, current_piece, time_elapsed)
+            draw_ghost_piece(ghost_piece, win)
+            draw_next_shape(next_piece, win)
+
+            if paused:
+                draw_text_middle_screen("Paused", 40, (255, 255, 255), win,1)
+
+            pygame.display.update()
+
+            if check_lost(locked_positions):
+                save_high_score(score)
+                draw_text_middle_screen("Try Again", 40, (255, 255, 255), win)
+                pygame.display.update()
+                pygame.time.delay(3000)
+                run = False
 
 win = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.display.set_caption('Tetris')
