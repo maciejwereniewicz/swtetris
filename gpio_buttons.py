@@ -57,7 +57,7 @@ try:
                 continue
             print("K1 pressed - Killing main.py script.")
             kill_main_script(main)
-            started = True
+            started = False
 
         if states[K2_pin] == GPIO.LOW and button_state['K2'] == False:  # K2 button pressed
             button_state['K2'] = True
@@ -66,7 +66,7 @@ try:
                 continue
             print("K2 pressed - Running main.py.")
             main = run_main_script()
-            started = False
+            started = True
 
         if states[K3_pin] == GPIO.LOW and button_state['K3'] == False:  # K3 button pressed
             button_state['K3'] = True
