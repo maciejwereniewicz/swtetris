@@ -384,8 +384,28 @@ def main():
                 draw_text_middle_screen("Try Again", 40, (255, 255, 255), win)
                 pygame.display.update()
                 pygame.time.delay(3000)
-                pygame.display.update()
+                locked_positions = {}
+                grid = create_grid(locked_positions)
+
+                change_piece = False
                 run = False
+                paused = False
+                current_piece = get_shape()
+                next_piece = get_shape()
+                clock = pygame.time.Clock()
+                fall_time = 0
+                time_elapsed = 0
+                score = 0
+                high_score = get_high_score()
+
+                fall_speed = 0.5
+                fast_drop = False
+
+                move_time = 0
+                move_delay = 150
+
+                button_state = {'left': False, 'right': False, 'down': False, 'rotate': False, 'select': False, 'start': False}
+                pygame.display.update()
 
 win = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.display.set_caption('Tetris')
