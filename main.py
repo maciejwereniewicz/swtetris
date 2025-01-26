@@ -317,7 +317,7 @@ def main():
                 change_piece = True
                 button_state['select'] = True
 
-            if select and not button_state['down']:
+            if down and not button_state['down']:
                 while valid_space(current_piece, grid):
                     current_piece.y += 1
                 current_piece.y -= 1
