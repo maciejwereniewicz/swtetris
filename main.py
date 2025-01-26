@@ -313,7 +313,8 @@ def main():
                 play_in_background(rotate_sound)
 
             if select and not button_state['select']:
-                change_piece = True
+                # Swap the current piece with the next piece
+                current_piece, next_piece = next_piece, current_piece
                 button_state['select'] = True
 
             if start and not button_state['start']:
