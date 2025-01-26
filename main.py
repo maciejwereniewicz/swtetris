@@ -40,5 +40,7 @@ def play_song(song):
 	for sound in song:
 		play_sound(sound)
 		
-while True:
-	play_song(tetris)
+for i in notes.keys:
+	print(i)
+	play_sound(i)
+	sleep(0.5)
