@@ -1,10 +1,8 @@
 import RPi.GPIO as GPIO
 from time import sleep
-from sys import exit
 
 pin=32 
 GPIO.setwarnings(False)
-GPIO.setmode(GPIO.B)
 GPIO.setup(pin, GPIO.OUT)
 p=GPIO.PWM(pin, 10)
 
