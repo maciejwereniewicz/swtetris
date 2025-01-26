@@ -1,5 +1,36 @@
 import pygame
 import random
+import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+
+# Pin Definitions
+left_pin = 29
+right_pin = 31
+down_pin = 33
+rotate_pin = 35
+select_pin = 38
+start_pin = 40
+
+# Set up the GPIO pins
+GPIO.setup(left_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(right_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(down_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(rotate_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(select_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(start_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+# Function to check GPIO pins state
+def check_gpio():
+    left = not GPIO.input(left_pin)
+    right = not GPIO.input(right_pin)
+    down = not GPIO.input(down_pin)
+    rotate = not GPIO.input(rotate_pin)
+    select = not GPIO.input(select_pin)
+    start = not GPIO.input(start_pin)
+
+    return left, right, down, rotate, select, start
 
 # Function to save the high score
 def save_high_score(score):
@@ -69,17 +100,6 @@ block_size = 30
 
 top_left_x = (s_width - play_width) // 2
 top_left_y = s_height - play_height - 50
-
-# Load and play background music
-#pygame.mixer.music.load('muzyka.mp3')
-#pygame.mixer.music.play(-1)
-
-# Load sound effects
-#sound_line_cleared = pygame.mixer.Sound("line.mp3")
-# Load sound effects
-#sound_rotate = pygame.mixer.Sound("rotate.wav")
-
-
 
 # Tetromino shapes
 S = [['.....',
@@ -187,25 +207,6 @@ T = [['.....',
 shapes = [S, Z, I, O, J, L, T]
 shape_colors = [(0, 255, 0), (255, 0, 0), (0, 255, 255), (255, 255, 0), (255, 165, 0), (0, 0, 255), (128, 0, 128)]
 
-# Particle Effect Class
-class Particle:
-    def __init__(self, x, y, color):
-        self.x = x
-        self.y = y
-        self.color = color
-        self.lifetime = 20
-        self.velocity = [random.choice([-1, 1]) * random.random() * 2 for _ in range(2)]
-
-    def update(self):
-        self.x += self.velocity[0]
-        self.y += self.velocity[1]
-        self.lifetime -= 1
-
-    def draw(self, surface):
-        pygame.draw.circle(surface, self.color, (int(self.x), int(self.y)), 3)
-
-particles = []
-
 class Piece:
     rows = 20
     columns = 10
@@ -312,13 +313,12 @@ def clear_rows(grid, locked):
 
         locked.clear()
         locked.update(new_locked)
-        #sound_line_cleared.play()
 
     return inc
 
 def draw_next_shape(shape, surface):
     font = pygame.font.SysFont('comicsans', 30)
-    label = font.render('Nastepny:', 1, (255, 255, 255))
+    label = font.render('Next:', 1, (255, 255, 255))
 
     sx = top_left_x + play_width + 50
     sy = top_left_y + play_height / 2 - 100
@@ -347,43 +347,17 @@ def draw_window(surface, grid, score=0, high_score=0, current_piece=None, time_e
     background_color = interpolate_color(base_color, highlight_color, t)
     surface.fill(background_color)
 
-    font = pygame.font.SysFont('comicsans', 60)
-    label = font.render('Tetris', 1, (255, 255, 255))
-    surface.blit(label, (top_left_x + play_width / 2 - (label.get_width() / 2), 30))
-
-    font = pygame.font.SysFont('comicsans', 12)
-    score_label = font.render('Wynik: ' + str(score), 1, (255, 255, 255))
-    high_score_label = font.render('Najwyzszy wynik: ' + str(high_score), 1, (255, 255, 255))
-    sx = top_left_x + play_width + 50
-    sy = top_left_y + play_height / 2 - 100
-    surface.blit(score_label, (sx + 20, sy + 160))
-    surface.blit(high_score_label, (sx + 20, sy + 200))
+    pygame.draw.rect(surface, (0, 0, 0), (top_left_x, top_left_y, play_width, play_height), 5)
 
     for i in range(len(grid)):
         for j in range(len(grid[i])):
-            pygame.draw.rect(surface, grid[i][j], (top_left_x + j * block_size, top_left_y + i * block_size, block_size, block_size), 0)
+            pygame.draw.rect(surface, grid[i][j],
+                             (top_left_x + j * block_size, top_left_y + i * block_size, block_size, block_size))
 
-    draw_grid(surface, grid)
     pygame.draw.rect(surface, (255, 0, 0), (top_left_x, top_left_y, play_width, play_height), 5)
 
-    # Draw current piece with glow
-    if current_piece:
-        shape_pos = convert_shape_format(current_piece)
-        for x, y in shape_pos:
-            if y > -1:
-                glow_rect = pygame.Rect(
-                    top_left_x + x * block_size - 2, top_left_y + y * block_size - 2,
-                    block_size + 4, block_size + 4
-                )
-                pygame.draw.rect(surface, (255, 255, 100, 100), glow_rect, border_radius=5)
-                pygame.draw.rect(surface, current_piece.color, 
-                                 (top_left_x + x * block_size, top_left_y + y * block_size, block_size, block_size), 0)
-
-    for particle in particles[:]:
-        particle.update()
-        particle.draw(surface)
-        if particle.lifetime <= 0:
-            particles.remove(particle)
+    draw_text_middle(f"Score: {score}", 30, (255, 255, 255), surface)
+    draw_text_middle(f"High Score: {high_score}", 30, (255, 255, 255), surface)
 
 def main():
     locked_positions = {}
@@ -427,50 +401,41 @@ def main():
                     current_piece.y -= 1
                     change_piece = True
 
-        keys = pygame.key.get_pressed()
+        left, right, down, rotate, select, start = check_gpio()
+
         if move_time > move_delay:
-            if keys[pygame.K_LEFT]:
+            if left:
                 current_piece.x -= 1
                 if not valid_space(current_piece, grid):
                     current_piece.x += 1
                 move_time = 0
 
-            if keys[pygame.K_RIGHT]:
+            if right:
                 current_piece.x += 1
                 if not valid_space(current_piece, grid):
                     current_piece.x -= 1
                 move_time = 0
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-                pygame.display.quit()
-                quit()
+        if not paused:
+            if down:
+                fast_drop = True
+            else:
+                fast_drop = False
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:
-                    paused = not paused
+            if rotate:
+                target_rotation = (current_piece.rotation + 1) % len(current_piece.shape)
+                current_piece.rotation = target_rotation
+                if not valid_space(current_piece, grid):
+                    current_piece.rotation = (current_piece.rotation - 1) % len(current_piece.shape)
 
-                if not paused:
-                    if event.key == pygame.K_DOWN:
-                        fast_drop = True
+            if select:
+                while valid_space(current_piece, grid):
+                    current_piece.y += 1
+                current_piece.y -= 1
+                change_piece = True
 
-                    elif event.key == pygame.K_UP:
-                        target_rotation = (current_piece.rotation + 1) % len(current_piece.shape)
-                        current_piece.rotation = target_rotation
-                        #sound_rotate.play()
-                        if not valid_space(current_piece, grid):
-                            current_piece.rotation = (current_piece.rotation - 1) % len(current_piece.shape)
-
-                    elif event.key == pygame.K_SPACE:
-                        while valid_space(current_piece, grid):
-                            current_piece.y += 1
-                        current_piece.y -= 1
-                        change_piece = True
-
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_DOWN:
-                    fast_drop = False
+            if start:
+                paused = not paused
 
         if not paused:
             shape_pos = convert_shape_format(current_piece)
@@ -504,21 +469,9 @@ def main():
             pygame.time.delay(3000)
             run = False
 
-
-def main_menu():
-    run = True
-    while run:
-        win.fill((0, 0, 0))
-        draw_text_middle('Wcisnij dowolny przycisk', 60, (255, 255, 255), win)
-        pygame.display.update()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-
-            if event.type == pygame.KEYDOWN:
-                main()
-    pygame.display.quit()
-
+# Start the game
 win = pygame.display.set_mode((s_width, s_height))
 pygame.display.set_caption('Tetris')
-main_menu()
+
+if __name__ == "__main__":
+    main()
