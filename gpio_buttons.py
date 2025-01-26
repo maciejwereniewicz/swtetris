@@ -35,9 +35,7 @@ def kill_main_script(main):
 
 def run_main_script():
     # Run the main.py script in the background with correct argument formatting
-    return subprocess.Popen(
-        ["python3", "/home/malo/Desktop/swtetris/main.py"],  # Pass as a list of arguments
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE  # Optionally capture output
+    return subprocess.Popen(["python3", "/home/malo/Desktop/swtetris/main.py"])
     )
 
     
