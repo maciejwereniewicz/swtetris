@@ -314,13 +314,13 @@ def main():
 
             if select and not button_state['select']:
                 current_piece, next_piece = next_piece, current_piece
+                change_piece = True
                 button_state['select'] = True
 
             if select and not button_state['down']:
                 while valid_space(current_piece, grid):
                     current_piece.y += 1
                 current_piece.y -= 1
-                change_piece = True
                 button_state['down'] = True
 
             if start and not button_state['start']:
