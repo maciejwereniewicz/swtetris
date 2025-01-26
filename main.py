@@ -314,7 +314,6 @@ def main():
 
             if select and not button_state['select']:
                 current_piece, next_piece = next_piece, current_piece
-                change_piece = True
                 button_state['select'] = True
 
             if down and not button_state['down']:
