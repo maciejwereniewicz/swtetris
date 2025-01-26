@@ -45,7 +45,7 @@ def play_song(song):
 	for sound in song:
 		play_sound(sound)
 		
-for i in ['rotate']:
+for i in ['E','A']:
 	print(i)
 	play_sound(i)
 	sleep(0.5)
