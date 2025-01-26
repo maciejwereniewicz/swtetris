@@ -27,9 +27,9 @@ def read_button_states():
 
 def kill_python_processes():
     # Avoid killing this script by excluding it from the kill command
-    # Exclude the current process (gpio_buttons.py) by checking the process ID
     pid = os.getpid()
-    os.system(f"pkill -f python3 | grep -v {pid}")
+    # Send SIGTERM signal to all Python processes except the current one
+    os.system(f"pkill -f python3 | grep -v {pid} | xargs kill -SIGTERM")
 
 def run_main_script():
     # Run the main.py script in the background
