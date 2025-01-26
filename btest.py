@@ -33,8 +33,7 @@ def read_button_states():
 try:
     while True:
         # Get button states
-        state = GPIO.input(select_pin)
-        print(f"Button on pin {pin} is {'Pressed' if state == GPIO.LOW else 'Released'}")
+        print(f"Button on pin {pin} is {GPIO.input(select_pin)}")
         
         time.sleep(0.5)  # Delay to reduce CPU usage
 
