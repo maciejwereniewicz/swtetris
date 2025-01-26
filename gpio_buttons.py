@@ -36,7 +36,7 @@ def kill_main_script(main):
 def run_main_script():
     # Run the main.py script in the background
     return subprocess.Popen(
-        "python", "/home/malo/Desktop/swtetris/main.py")
+        "python3", "/home/malo/Desktop/swtetris/main.py")
     
 
 def git_pull():
