@@ -15,7 +15,7 @@ p.start(50)
 
 def play_sound(sound):
     p.ChangeFrequency(notes[sound])
-    sleep(0.2)
+    sleep(0.5)
     p.ChangeFrequency(10)
 	
 
