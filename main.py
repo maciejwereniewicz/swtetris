@@ -58,7 +58,7 @@ def draw_ghost_piece(ghost_piece, surface):
 
 # Pygame initialization
 pygame.font.init()
-pygame.mixer.init()
+#pygame.mixer.init()
 
 # Screen dimensions and configurations
 s_width = 800
@@ -71,13 +71,13 @@ top_left_x = (s_width - play_width) // 2
 top_left_y = s_height - play_height - 50
 
 # Load and play background music
-pygame.mixer.music.load('muzyka.mp3')
-pygame.mixer.music.play(-1)
+#pygame.mixer.music.load('muzyka.mp3')
+#pygame.mixer.music.play(-1)
 
 # Load sound effects
-sound_line_cleared = pygame.mixer.Sound("line.mp3")
+#sound_line_cleared = pygame.mixer.Sound("line.mp3")
 # Load sound effects
-sound_rotate = pygame.mixer.Sound("rotate.wav")
+#sound_rotate = pygame.mixer.Sound("rotate.wav")
 
 
 
@@ -312,7 +312,7 @@ def clear_rows(grid, locked):
 
         locked.clear()
         locked.update(new_locked)
-        sound_line_cleared.play()
+        #sound_line_cleared.play()
 
     return inc
 
@@ -458,7 +458,7 @@ def main():
                     elif event.key == pygame.K_UP:
                         target_rotation = (current_piece.rotation + 1) % len(current_piece.shape)
                         current_piece.rotation = target_rotation
-                        sound_rotate.play()
+                        #sound_rotate.play()
                         if not valid_space(current_piece, grid):
                             current_piece.rotation = (current_piece.rotation - 1) % len(current_piece.shape)
 
