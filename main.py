@@ -359,6 +359,7 @@ def draw_window(surface, grid, score=0, high_score=0, current_piece=None, time_e
     draw_text_middle(f"Score: {score}", 30, (255, 255, 255), surface)
     draw_text_middle(f"High Score: {high_score}", 30, (255, 255, 255), surface)
 
+# Main game loop
 def main():
     locked_positions = {}
     grid = create_grid(locked_positions)
@@ -379,6 +380,9 @@ def main():
 
     move_time = 0  # Timer for smooth movement
     move_delay = 150  # Delay in milliseconds
+
+    # Tracking button states to avoid multiple actions on a single press
+    button_state = {'left': False, 'right': False, 'down': False, 'rotate': False, 'select': False, 'start': False}
 
     while run:
         grid = create_grid(locked_positions)
@@ -403,17 +407,20 @@ def main():
 
         left, right, down, rotate, select, start = check_gpio()
 
+        # Check if the button is pressed and avoid multiple actions on long press
         if move_time > move_delay:
-            if left:
+            if left and not button_state['left']:
                 current_piece.x -= 1
                 if not valid_space(current_piece, grid):
                     current_piece.x += 1
+                button_state['left'] = True
                 move_time = 0
 
-            if right:
+            if right and not button_state['right']:
                 current_piece.x += 1
                 if not valid_space(current_piece, grid):
                     current_piece.x -= 1
+                button_state['right'] = True
                 move_time = 0
 
             if down:
@@ -421,20 +428,35 @@ def main():
             else:
                 fast_drop = False
 
-            if rotate:
+            if rotate and not button_state['rotate']:
                 target_rotation = (current_piece.rotation + 1) % len(current_piece.shape)
                 current_piece.rotation = target_rotation
                 if not valid_space(current_piece, grid):
                     current_piece.rotation = (current_piece.rotation - 1) % len(current_piece.shape)
+                button_state['rotate'] = True
 
-            if select:
+            if select and not button_state['select']:
                 while valid_space(current_piece, grid):
                     current_piece.y += 1
                 current_piece.y -= 1
                 change_piece = True
+                button_state['select'] = True
 
-            if start:
+            if start and not button_state['start']:
                 paused = not paused
+                button_state['start'] = True
+
+        # Reset button states after they are released
+        if not left:
+            button_state['left'] = False
+        if not right:
+            button_state['right'] = False
+        if not rotate:
+            button_state['rotate'] = False
+        if not select:
+            button_state['select'] = False
+        if not start:
+            button_state['start'] = False
 
         if not paused:
             shape_pos = convert_shape_format(current_piece)
