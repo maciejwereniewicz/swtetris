@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 import os
 import subprocess
-import signal
+import signal  # Ensure signal module is imported
 import sys
 
 # Set up GPIO
@@ -28,13 +28,22 @@ def read_button_states():
     return states
 
 def kill_python_processes():
-    # Avoid killing this script by excluding it from the kill command
-    pid = os.getpid()
-    # Get all Python 3 process IDs, exclude the current script's PID, then kill them
-    processes = subprocess.check_output("pgrep -f python3", shell=True).decode().splitlines()
-    for process_pid in processes:
-        if process_pid != str(pid):  # Make sure not to kill the current script
-            os.kill(int(process_pid), signal.SIGTERM)  # Send SIGTERM to kill the process
+    pid = os.getpid()  # Get current script's PID
+    try:
+        # Get all Python 3 process IDs
+        processes = subprocess.check_output("pgrep -f python3", shell=True).decode().splitlines()
+        for process_pid in processes:
+            if process_pid != str(pid):  # Exclude the current script's PID
+                try:
+                    # Attempt to send SIGTERM to the process
+                    os.kill(int(process_pid), signal.SIGTERM)
+                    print(f"Terminating process {process_pid}")
+                except ProcessLookupError:
+                    # Process already terminated
+                    print(f"Process {process_pid} already terminated or not found.")
+    except subprocess.CalledProcessError:
+        # If no Python processes are found or other errors with pgrep
+        print("No Python processes found to kill.")
 
 def run_main_script():
     # Run the main.py script in the background
