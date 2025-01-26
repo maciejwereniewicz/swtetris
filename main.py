@@ -8,9 +8,9 @@ GPIO.setwarnings(False)
 # Pin Definitions
 left_pin = 29
 right_pin = 31
-down_pin = 33
+down_pin = 38
 rotate_pin = 35
-select_pin = 38
+select_pin = 33
 start_pin = 40
 
 # Set up the GPIO pins
@@ -415,7 +415,7 @@ def main():
                 if not valid_space(current_piece, grid):
                     current_piece.x -= 1
                 move_time = 0
-                
+
             if down:
                 fast_drop = True
             else:
