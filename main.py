@@ -25,6 +25,7 @@ p.start(50)
 def play_sound(sound):
     if type(sound) == int or type(sound) == float:
         sleep(sound)
+        p.ChangeFrequency(10)
     else:
         p.ChangeFrequency(notes[sound])
         sleep(0.35)
