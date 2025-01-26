@@ -29,13 +29,13 @@ def read_button_states():
         states[pin] = GPIO.input(pin)
     return states
 
-def kill_main_script():
+def kill_main_script(main):
     if main:
         main.kill()
 
 def run_main_script():
     # Run the main.py script in the background
-    main = subprocess.Popen(["python3", "/home/malo/Desktop/swtetris/main.py"])
+    return subprocess.Popen(["python3", "/home/malo/Desktop/swtetris/main.py"])
     
 
 def git_pull():
@@ -55,11 +55,11 @@ try:
 
         if states[K1_pin] == GPIO.LOW:  # K1 button pressed
             print("K1 pressed - Killing main.py script.")
-            kill_main_script()
+            kill_main_script(main)
 
         if states[K2_pin] == GPIO.LOW:  # K2 button pressed
             print("K2 pressed - Running main.py.")
-            run_main_script()
+            main = run_main_script()
 
         if states[K3_pin] == GPIO.LOW:  # K3 button pressed
             print("K3 pressed - Running git pull and restarting script.")
