@@ -9,9 +9,9 @@ GPIO.setwarnings(False)
 
 left_pin = 29
 right_pin = 31
-down_pin = 33
+down_pin = 38
 rotate_pin = 35
-select_pin = 38
+select_pin = 33
 start_pin = 40
 
 GPIO.setup(left_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
