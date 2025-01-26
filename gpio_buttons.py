@@ -51,19 +51,19 @@ try:
         states = read_button_states()
 
         if states[K1_pin] == GPIO.LOW and button_state['K1'] == False:  # K1 button pressed
+            button_state['K1'] = True
             if not started:
                 print("No process to kill")
                 continue
-            button_state['K1'] = True
             print("K1 pressed - Killing main.py script.")
             kill_main_script(main)
             started = True
 
         if states[K2_pin] == GPIO.LOW and button_state['K2'] == False:  # K2 button pressed
+            button_state['K2'] = True
             if started:
                 print("Already started")
                 continue
-            button_state['K2'] = True
             print("K2 pressed - Running main.py.")
             main = run_main_script()
             started = False
