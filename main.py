@@ -2,7 +2,7 @@ import pygame
 import random
 import RPi.GPIO as GPIO
 import threading  # Import the threading module
-from music import tetris_theme, rotate_sound, line_sound  # Import tetris_theme from music.py
+from music import tetris_theme, rotate_sound  # Import tetris_theme from music.py
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
@@ -313,9 +313,6 @@ def main():
                 play_in_background(rotate_sound)
 
             if select and not button_state['select']:
-                while valid_space(current_piece, grid):
-                    current_piece.y += 1
-                current_piece.y -= 1
                 change_piece = True
                 button_state['select'] = True
 
