@@ -406,6 +406,7 @@ def main():
 
                 button_state = {'left': False, 'right': False, 'down': False, 'rotate': False, 'select': False, 'start': False}
                 grid = create_grid(locked_positions)
+                draw_window(win, grid, score, high_score, current_piece, time_elapsed)
                 pygame.display.update()
 
 win = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
