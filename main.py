@@ -321,7 +321,7 @@ def main():
                     current_piece.y += 1
                 current_piece.y -= 1
                 change_piece = True
-                button_state['select'] = True
+                button_state['down'] = True
 
             if start and not button_state['start']:
                 paused = not paused
