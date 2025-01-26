@@ -384,6 +384,7 @@ def main():
                 draw_text_middle_screen("Try Again", 40, (255, 255, 255), win)
                 pygame.display.update()
                 pygame.time.delay(3000)
+                pygame.display.update()
                 run = False
 
 win = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
