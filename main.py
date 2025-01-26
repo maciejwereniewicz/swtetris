@@ -23,11 +23,12 @@ tetris = [tet1,tet1,tet2,tet1,tet1,tet2]
 p.start(50)
 
 def play_sound(sound):
-	if type(sound) == int:
-		sleep(sound)
-    p.ChangeFrequency(notes[sound])
-    sleep(0.35)
-    p.ChangeFrequency(10)
+    if type(sound) == int:
+        sleep(sound)
+    else:
+        p.ChangeFrequency(notes[sound])
+        sleep(0.35)
+        p.ChangeFrequency(10)
 	
 
 def play_song(song):
