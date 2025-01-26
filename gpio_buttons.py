@@ -34,11 +34,12 @@ def kill_main_script(main):
         main.kill()
 
 def run_main_script():
-    # Run the main.py script in the background
+    # Run the main.py script in the background with correct argument formatting
     return subprocess.Popen(
-        "python3", "/home/malo/Desktop/swtetris/main.py | tee /home/malo/main_output.log",
-        shell=True
+        ["python3", "/home/malo/Desktop/swtetris/main.py"],  # Pass as a list of arguments
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE  # Optionally capture output
     )
+
     
 
 def git_pull():
