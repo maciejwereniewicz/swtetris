@@ -166,6 +166,11 @@ def draw_text_middle(text, size, color, surface, index=0):
     label = font.render(text, 1, color)
     surface.blit(label, (250,200+index*25))
 
+def draw_text_middle_screen(text, size, color, surface, index=0):
+    font = pygame.font.SysFont('comicsans', size, bold=True)
+    label = font.render(text, 1, color)
+    surface.blit(label, (100,200+index*25))
+
 def draw_grid(surface, grid):
     sx = top_left_x
     sy = top_left_y
@@ -360,13 +365,13 @@ def main():
         draw_next_shape(next_piece, win)
 
         if paused:
-            draw_text_middle("Paused", 40, (255, 255, 255), win)
+            draw_text_middle_screen("Paused", 40, (255, 255, 255), win)
 
         pygame.display.update()
 
         if check_lost(locked_positions):
             save_high_score(score)
-            draw_text_middle("Try Again", 40, (255, 255, 255), win)
+            draw_text_middle_screen("Try Again", 40, (255, 255, 255), win)
             pygame.display.update()
             pygame.time.delay(3000)
             run = False
