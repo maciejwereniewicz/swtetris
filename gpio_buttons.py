@@ -65,6 +65,7 @@ try:
         if states[K3_pin] == GPIO.LOW:  # K3 button pressed
             print("K3 pressed - Running git pull and restarting script.")
             git_pull()
+            GPIO.cleanup()  # Clean up GPIO settings
             restart_script()  # Restart the script after git pull
 
         time.sleep(0.2)  # Add a small delay to debounce the buttons
