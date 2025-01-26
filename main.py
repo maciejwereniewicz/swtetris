@@ -32,7 +32,11 @@ def goodbye(msg = ''):
 	print(msg + '\n\nDone! Have fun. Like. Comment below. Kill yourself.')
 	exit()
 
-def play_song(song):
+def play_song(song):# -----------------------------------------------------------------------------
+# If you're reading this, you shouldn't be here
+# unless you know what you are doing.
+# -----------------------------------------------------------------------------
+#Duty cycle of 50% does his job
 	global header,printcount,notes,speed
 	try:
 		print(header)
