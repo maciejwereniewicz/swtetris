@@ -245,6 +245,7 @@ def draw_window(surface, grid, score=0, high_score=0, current_piece=None, time_e
 def main():
     # Start music at the beginning of the game
     play_music_in_background()
+    run = False
     while True:
         if not run:
                 locked_positions = {}
