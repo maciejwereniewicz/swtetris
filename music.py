@@ -51,7 +51,8 @@ def rotate_sound():
 	play_sound('rotate')
 	
 def tetris_theme():
-	play_song(tetris)
+	while True:
+	    play_song(tetris)
 	
 def line_sound():
     for i in ['B','D']:
