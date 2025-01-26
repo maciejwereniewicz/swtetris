@@ -243,31 +243,31 @@ def draw_window(surface, grid, score=0, high_score=0, current_piece=None, time_e
     draw_highscore(f"High Score: {high_score}", 20, (255, 255, 255), surface)
 
 def main():
-    locked_positions = {}
-    grid = create_grid(locked_positions)
-
-    change_piece = False
-    run = False
-    paused = False
-    current_piece = get_shape()
-    next_piece = get_shape()
-    clock = pygame.time.Clock()
-    fall_time = 0
-    time_elapsed = 0
-    score = 0
-    high_score = get_high_score()
-
-    fall_speed = 0.5
-    fast_drop = False
-
-    move_time = 0
-    move_delay = 150
-
-    button_state = {'left': False, 'right': False, 'down': False, 'rotate': False, 'select': False, 'start': False}
-
     # Start music at the beginning of the game
     play_music_in_background()
     while True:
+        if not run:
+                locked_positions = {}
+                grid = create_grid(locked_positions)
+
+                change_piece = False
+                run = False
+                paused = False
+                current_piece = get_shape()
+                next_piece = get_shape()
+                clock = pygame.time.Clock()
+                fall_time = 0
+                time_elapsed = 0
+                score = 0
+                high_score = get_high_score()
+
+                fall_speed = 0.5
+                fast_drop = False
+
+                move_time = 0
+                move_delay = 150
+
+                button_state = {'left': False, 'right': False, 'down': False, 'rotate': False, 'select': False, 'start': False}
         while (not run) or button_state['start']:
             draw_text_middle_screen("Welcome", 40, (255, 255, 255), win)
             pygame.display.update()
