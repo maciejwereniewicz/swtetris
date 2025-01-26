@@ -41,14 +41,13 @@ def run_main_script():
 
 def git_pull():
     # Change directory and pull the latest from git
-    subprocess.run(["bash", "-c", "cd /home/malo/Desktop/swtetris &&sudo git pull"])
+    subprocess.run(["bash", "-c", "cd /home/malo/Desktop/swtetris &&sudo git reset --hard origin/main&&sudo git pull"])
 
 def restart_script():
-    # Restart the current script after git pull
-    python = sys.executable
-    script = sys.argv[0]
-    subprocess.Popen([python, script])
+    # Open a new terminal and run the current script
+    subprocess.Popen(['gnome-terminal', '--', 'python', sys.argv[0]])
     sys.exit()  # Exit the current instance of the script
+
 
 try:
     while True:
