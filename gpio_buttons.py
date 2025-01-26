@@ -27,23 +27,17 @@ def read_button_states():
         states[pin] = GPIO.input(pin)
     return states
 
-def kill_python_processes():
-    pid = os.getpid()  # Get current script's PID
+def kill_main_script():
+    # Find the process ID of the running main.py script and kill it
     try:
-        # Get all Python 3 process IDs
-        processes = subprocess.check_output("pgrep -f python3", shell=True).decode().splitlines()
-        for process_pid in processes:
-            if process_pid != str(pid):  # Exclude the current script's PID
-                try:
-                    # Attempt to send SIGTERM to the process
-                    os.kill(int(process_pid), signal.SIGTERM)
-                    print(f"Terminating process {process_pid}")
-                except ProcessLookupError:
-                    # Process already terminated
-                    print(f"Process {process_pid} already terminated or not found.")
+        # Get the PID of the main.py process
+        processes = subprocess.check_output("pgrep -f /home/malo/Desktop/swtetris/main.py", shell=True).decode().splitlines()
+        for pid in processes:
+            # Send SIGTERM to the main.py process to terminate it
+            os.kill(int(pid), signal.SIGTERM)
+            print(f"Terminated main.py process with PID: {pid}")
     except subprocess.CalledProcessError:
-        # If no Python processes are found or other errors with pgrep
-        print("No Python processes found to kill.")
+        print("No main.py process found to kill.")
 
 def run_main_script():
     # Run the main.py script in the background
@@ -65,8 +59,8 @@ try:
         states = read_button_states()
 
         if states[K1_pin] == GPIO.LOW:  # K1 button pressed
-            print("K1 pressed - Killing all Python processes.")
-            kill_python_processes()
+            print("K1 pressed - Killing main.py script.")
+            kill_main_script()
 
         if states[K2_pin] == GPIO.LOW:  # K2 button pressed
             print("K2 pressed - Running main.py.")
