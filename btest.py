@@ -8,16 +8,12 @@ GPIO.setwarnings(False)
 
 # List of pins connected to buttons
 
-left_pin = 29
-right_pin = 31
-down_pin = 33
-rotate_pin = 35
-
-select_pin=38
-start_pin=40
+K1_pin = 12
+K2_pin = 16
+K3_pin = 18
 
 
-button_pins = [left_pin, right_pin, down_pin, rotate_pin, select_pin, start_pin]
+button_pins = [K1_pin, K2_pin, K3_pin]
 
 
 # Set up each pin as input with an internal pull-up resistor
