@@ -66,8 +66,8 @@ def draw_ghost_piece(ghost_piece, surface):
 
 pygame.font.init()
 
-s_width = pygame.display.Info().current_w
-s_height = pygame.display.Info().current_h
+s_width = 240
+s_height = 320
 play_width = int(s_width * 0.75)
 play_height = int(s_height * 0.75)
 block_size = 20
