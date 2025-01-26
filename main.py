@@ -9,9 +9,9 @@ GPIO.setwarnings(False)
 
 left_pin = 29
 right_pin = 31
-down_pin = 38
+down_pin = 33
 rotate_pin = 35
-select_pin = 33
+select_pin = 38
 start_pin = 40
 
 GPIO.setup(left_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -313,8 +313,14 @@ def main():
                 play_in_background(rotate_sound)
 
             if select and not button_state['select']:
-                # Swap the current piece with the next piece
                 current_piece, next_piece = next_piece, current_piece
+                button_state['select'] = True
+
+            if select and not button_state['down']:
+                while valid_space(current_piece, grid):
+                    current_piece.y += 1
+                current_piece.y -= 1
+                change_piece = True
                 button_state['select'] = True
 
             if start and not button_state['start']:
@@ -331,6 +337,8 @@ def main():
             button_state['select'] = False
         if not start:
             button_state['start'] = False
+        if not down:
+            button_state['down'] = False
 
         if not paused:
             shape_pos = convert_shape_format(current_piece)
