@@ -365,7 +365,7 @@ def main():
         draw_next_shape(next_piece, win)
 
         if paused:
-            draw_text_middle_screen("Paused", 40, (255, 255, 255), win,idex=1)
+            draw_text_middle_screen("Paused", 40, (255, 255, 255), win,1)
 
         pygame.display.update()
 
