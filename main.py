@@ -405,8 +405,8 @@ def main():
 
     move_time = 0  # Timer for smooth movement
     move_delay = 150  # Delay in milliseconds
-
     while run:
+
         grid = create_grid(locked_positions)
         fall_time += clock.get_rawtime()
         time_elapsed += clock.get_rawtime()
@@ -494,7 +494,6 @@ def main():
 
         if paused:
             draw_text_middle("Paused", 60, (255, 255, 255), win)
-
         pygame.display.update()
 
         if check_lost(locked_positions):
@@ -505,8 +504,10 @@ def main():
             run = False
 
 
+
 def main_menu():
     run = True
+    pygame.display.toggle_fullscreen()
     while run:
         win.fill((0, 0, 0))
         draw_text_middle('Wcisnij dowolny przycisk', 60, (255, 255, 255), win)
