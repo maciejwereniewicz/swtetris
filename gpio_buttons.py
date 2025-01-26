@@ -26,12 +26,12 @@ def read_button_states():
     return states
 
 def kill_python_processes():
-    # Kill all python processes
-    os.system("pkill -f python")
+    # Avoid killing this script by excluding it from the kill command
+    os.system("pkill -f python3 | grep -v $(pgrep -f gpio_buttons.py)")
 
 def run_main_script():
     # Run the main.py script
-    subprocess.run(["python", "/home/malo/Desktop/swtetris/main.py"])
+    subprocess.run(["python3", "/home/malo/Desktop/swtetris/main.py"])
 
 def git_pull():
     # Change directory and pull the latest from git
