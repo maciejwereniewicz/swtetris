@@ -23,7 +23,7 @@ tetris = [*tet1,*tet1,*tet2,*tet1,*tet1,*tet2]
 p.start(50)
 
 def play_sound(sound):
-    if type(sound) == int:
+    if type(sound) == int or type(sound) == float:
         sleep(sound)
     else:
         p.ChangeFrequency(notes[sound])
