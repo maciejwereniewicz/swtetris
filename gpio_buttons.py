@@ -16,6 +16,8 @@ K3_pin = 18
 
 button_pins = [K1_pin, K2_pin, K3_pin]
 
+main = None
+
 # Set up each pin as input with an internal pull-up resistor
 for pin in button_pins:
     GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -28,20 +30,13 @@ def read_button_states():
     return states
 
 def kill_main_script():
-    # Find the process ID of the running main.py script and kill it
-    try:
-        # Get the PID of the main.py process
-        processes = subprocess.check_output("pgrep -f /home/malo/Desktop/swtetris/main.py", shell=True).decode().splitlines()
-        for pid in processes:
-            # Send SIGTERM to the main.py process to terminate it
-            os.kill(int(pid), signal.SIGTERM)
-            print(f"Terminated main.py process with PID: {pid}")
-    except subprocess.CalledProcessError:
-        print("No main.py process found to kill.")
+    if main:
+        main.kill()
 
 def run_main_script():
     # Run the main.py script in the background
-    subprocess.Popen(["python3", "/home/malo/Desktop/swtetris/main.py"])
+    main = subprocess.Popen(["python3", "/home/malo/Desktop/swtetris/main.py"])
+    
 
 def git_pull():
     # Change directory and pull the latest from git
