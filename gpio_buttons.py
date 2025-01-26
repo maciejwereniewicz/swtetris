@@ -2,6 +2,8 @@ import RPi.GPIO as GPIO
 import time
 import os
 import subprocess
+import signal
+import sys
 
 # Set up GPIO
 GPIO.setmode(GPIO.BOARD)
@@ -34,7 +36,6 @@ def kill_python_processes():
         if process_pid != str(pid):  # Make sure not to kill the current script
             os.kill(int(process_pid), signal.SIGTERM)  # Send SIGTERM to kill the process
 
-
 def run_main_script():
     # Run the main.py script in the background
     subprocess.Popen(["python3", "/home/malo/Desktop/swtetris/main.py"])
@@ -42,6 +43,13 @@ def run_main_script():
 def git_pull():
     # Change directory and pull the latest from git
     subprocess.run(["bash", "-c", "cd /home/malo/Desktop/swtetris && git pull"])
+
+def restart_script():
+    # Restart the current script after git pull
+    python = sys.executable
+    script = sys.argv[0]
+    subprocess.Popen([python, script])
+    sys.exit()  # Exit the current instance of the script
 
 try:
     while True:
@@ -56,8 +64,9 @@ try:
             run_main_script()
 
         if states[K3_pin] == GPIO.LOW:  # K3 button pressed
-            print("K3 pressed - Running git pull.")
+            print("K3 pressed - Running git pull and restarting script.")
             git_pull()
+            restart_script()  # Restart the script after git pull
 
         time.sleep(0.2)  # Add a small delay to debounce the buttons
 
