@@ -32,12 +32,6 @@ def play_music_in_background():
         music_thread.daemon = True
         music_thread.start()
 
-def stop_music():
-    global music_playing
-    music_playing = False
-    if music_thread is not None:
-        music_thread.join()  # Wait for the thread to finish (or terminate)
-
 def check_gpio():
     left = not GPIO.input(left_pin)
     right = not GPIO.input(right_pin)
@@ -323,10 +317,6 @@ def main():
 
             if start and not button_state['start']:
                 paused = not paused
-                if paused:
-                    stop_music()  # Stop music when paused
-                else:
-                    play_music_in_background()  # Start music again when resumed
                 button_state['start'] = True
 
         if not left:
