@@ -38,16 +38,13 @@ def restart_script():
     #subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 'sh /home/malo/Desktop/swtetris/button_control.sh; exec bash'])
     sys.exit()  # Exit the current instance of the script
     
+def run_main_script():
+    # Run the main.py script in the background with correct argument formatting
+    return subprocess.Popen(["python", "/home/malo/Desktop/swtetris/main.py"])
 
 def git_pull():
     # Change directory and pull the latest from git
     subprocess.run(["bash", "-c", "cd /home/malo/Desktop/swtetris &&sudo git pull"])
-
-def restart_script():
-    # Open a new terminal and run the current script
-    subprocess.Popen(['gnome-terminal', '--', 'python', sys.argv[0]])
-    sys.exit()  # Exit the current instance of the script
-
 
 try:
     while True:
