@@ -366,7 +366,7 @@ def main():
 
         if check_lost(locked_positions):
             save_high_score(score)
-            draw_text_middle("Try Again", 60, (255, 255, 255), win)
+            draw_text_middle("Try Again", 40, (255, 255, 255), win)
             pygame.display.update()
             pygame.time.delay(3000)
             run = False
