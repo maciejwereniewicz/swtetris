@@ -405,6 +405,7 @@ def main():
                 move_delay = 150
 
                 button_state = {'left': False, 'right': False, 'down': False, 'rotate': False, 'select': False, 'start': False}
+                grid = create_grid(locked_positions)
                 pygame.display.update()
 
 win = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
