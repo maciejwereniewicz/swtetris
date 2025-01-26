@@ -169,7 +169,7 @@ def draw_text_middle(text, size, color, surface, index=0):
 def draw_text_middle_screen(text, size, color, surface, index=0):
     font = pygame.font.SysFont('comicsans', size, bold=True)
     label = font.render(text, 1, color)
-    surface.blit(label, (100,200+index*25))
+    surface.blit(label, (80,200+index*25))
 
 def draw_grid(surface, grid):
     sx = top_left_x
@@ -373,7 +373,7 @@ def main():
             save_high_score(score)
             draw_text_middle_screen("Try Again", 40, (255, 255, 255), win)
             pygame.display.update()
-            pygame.time.delay(3000)
+            #pygame.time.delay(3000)
             run = False
 
 win = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
