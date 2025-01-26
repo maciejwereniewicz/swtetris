@@ -313,8 +313,10 @@ def main():
                 play_in_background(rotate_sound)
 
             if select and not button_state['select']:
-                # Swap the current piece with the next piece
-                current_piece, next_piece = next_piece, get_shape()
+                while valid_space(current_piece, grid):
+                    current_piece.y += 1
+                current_piece.y -= 1
+                change_piece = True
                 button_state['select'] = True
 
             if start and not button_state['start']:
@@ -334,8 +336,6 @@ def main():
 
         if not paused:
             shape_pos = convert_shape_format(current_piece)
-            
-            # Draw current piece on the grid
             for i in range(len(shape_pos)):
                 x, y = shape_pos[i]
                 if y > -1:
@@ -345,23 +345,10 @@ def main():
                 for pos in shape_pos:
                     p = (pos[0], pos[1])
                     locked_positions[p] = current_piece.color
-
-                # Here is the logic to handle the piece swap when the "select" button is pressed:
-                if select and not button_state['select']:
-                    # Swap the current piece with the next piece without moving it down
-                    current_piece, next_piece = next_piece, get_shape()
-                    button_state['select'] = True  # Prevent multiple swaps until the button is released
-                elif not select:
-                    button_state['select'] = False  # Reset the button state when released
-
-                # Only move to the next piece when the current piece has "settled"
-                if not select:
-                    current_piece = next_piece
-                    next_piece = get_shape()
-
+                current_piece = next_piece
+                next_piece = get_shape()
                 change_piece = False
                 score += clear_rows(grid, locked_positions) * 10
-
 
         draw_window(win, grid, score, high_score, current_piece, time_elapsed)
         draw_ghost_piece(ghost_piece, win)
