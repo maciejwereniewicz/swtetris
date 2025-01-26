@@ -29,7 +29,8 @@ tet2 = ["E","C","D","B","C","A","Ab","B",
 
 tetris = [*tet1,*tet1,*tet2,*tet1,*tet1,*tet2]
 
-rotate = ["E"]
+rotate = ["rotate"]
+line = ['B', 'D']
 
 
 p.start(50)
