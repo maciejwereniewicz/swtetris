@@ -7,7 +7,14 @@ GPIO.setwarnings(False)
 GPIO.setup(pin, GPIO.OUT)
 p=GPIO.PWM(pin, 10)
 
-notes = {'C' : 523.25, 'D' : 587.33, 'E' : 659.25, 'F' : 349.23, 'G' : 392.00, 'A' : 440.00, 'B' : 493.88, '#' : 0.5, 'Ab' : 415.30}
+notes = {'C' : 523.25, 
+         'D' : 587.33, 
+         'E' : 659.25, 
+         'F' : 349.23, 
+         'G' : 392.00, 
+         'A' : 440.00, 
+         'B' : 493.88, 
+         'Ab' : 415.30}
 
 tet1 = ["E","B","C","D","C","B","A",
 		  "A","C","E","D","C","B",
@@ -24,13 +31,9 @@ tetris = [*tet1,*tet1,*tet2,*tet1,*tet1,*tet2]
 p.start(50)
 
 def play_sound(sound):
-    if type(sound) == int or type(sound) == float:
-        sleep(sound)
-        p.ChangeFrequency(10)
-    else:
-        p.ChangeFrequency(notes[sound])
-        sleep(0.35)
-        p.ChangeFrequency(10)
+    p.ChangeFrequency(notes[sound])
+    sleep(0.35)
+    p.ChangeFrequency(10)
 	
 
 def play_song(song):
