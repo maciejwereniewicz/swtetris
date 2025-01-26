@@ -94,12 +94,12 @@ pygame.font.init()
 # Screen dimensions and configurations
 s_width = 240
 s_height = 320
-play_width = 200
-play_height = 300
-block_size = 30
+play_width = 180  # Reduced width of play area
+play_height = 300  # Reduced height of play area
+block_size = 15  # Reduced block size to fit the screen
 
 top_left_x = (s_width - play_width) // 2
-top_left_y = s_height - play_height - 50
+top_left_y = s_height - play_height - 20
 
 # Tetromino shapes
 S = [['.....',
@@ -312,11 +312,12 @@ def clear_rows(grid, locked):
     return inc
 
 def draw_next_shape(shape, surface):
-    font = pygame.font.SysFont('comicsans', 30)
+    font = pygame.font.SysFont('comicsans', 20)  # Reduced font size
     label = font.render('Next:', 1, (255, 255, 255))
 
-    sx = top_left_x + play_width + 50
-    sy = top_left_y + play_height / 2 - 100
+    sx = top_left_x + play_width + 10
+    sy = top_left_y + play_height / 2 - 50  # Adjusted position
+
     format = shape.shape[shape.rotation % len(shape.shape)]
 
     for i, line in enumerate(format):
@@ -325,7 +326,7 @@ def draw_next_shape(shape, surface):
             if column == '0':
                 pygame.draw.rect(surface, shape.color, (sx + j * block_size, sy + i * block_size, block_size, block_size), 0)
 
-    surface.blit(label, (sx + 10, sy - 30))
+    surface.blit(label, (sx + 10, sy - 20))
 
 def interpolate_color(color1, color2, t):
     return (
@@ -351,8 +352,8 @@ def draw_window(surface, grid, score=0, high_score=0, current_piece=None, time_e
 
     pygame.draw.rect(surface, (255, 0, 0), (top_left_x, top_left_y, play_width, play_height), 5)
 
-    draw_text_middle(f"Score: {score}", 30, (255, 255, 255), surface)
-    draw_text_middle(f"High Score: {high_score}", 30, (255, 255, 255), surface)
+    draw_text_middle(f"Score: {score}", 20, (255, 255, 255), surface)  # Adjusted font size
+    draw_text_middle(f"High Score: {high_score}", 20, (255, 255, 255), surface)
 
 # Main game loop
 def main():
@@ -474,13 +475,13 @@ def main():
         draw_next_shape(next_piece, win)
 
         if paused:
-            draw_text_middle("Paused", 60, (255, 255, 255), win)
+            draw_text_middle("Paused", 40, (255, 255, 255), win)
 
         pygame.display.update()
 
         if check_lost(locked_positions):
             save_high_score(score)
-            draw_text_middle("Try Again", 80, (255, 255, 255), win)
+            draw_text_middle("Try Again", 60, (255, 255, 255), win)
             pygame.display.update()
             pygame.time.delay(3000)
             run = False
