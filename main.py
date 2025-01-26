@@ -313,10 +313,8 @@ def main():
                 play_in_background(rotate_sound)
 
             if select and not button_state['select']:
-                while valid_space(current_piece, grid):
-                    current_piece.y += 1
-                current_piece.y -= 1
-                change_piece = True
+                # Swap the current piece with the next piece
+                current_piece, next_piece = next_piece, get_shape()
                 button_state['select'] = True
 
             if start and not button_state['start']:
