@@ -34,11 +34,9 @@ def kill_main_script(main):
         main.kill()
 
 def restart_script():
-    # Open the default terminal and run the button_control.sh script
-    subprocess.Popen(['x-terminal-emulator', '-e', 'sh', '/home/malo/Desktop/swtetris/button_control.sh'])
+    # Open a new gnome-terminal and run the button_control.sh script
+    subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 'sh /home/malo/Desktop/swtetris/button_control.sh; exec bash'])
     sys.exit()  # Exit the current instance of the script
-
-
     
 
 def git_pull():
