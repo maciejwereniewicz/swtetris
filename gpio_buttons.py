@@ -15,7 +15,7 @@ K2_pin = 16
 K3_pin = 18
 
 button_pins = [K1_pin, K2_pin, K3_pin]
-
+button_state = {'K1': False, 'K2': False, 'K3': False}
 main = None
 
 # Set up each pin as input with an internal pull-up resistor
@@ -54,15 +54,18 @@ try:
     while True:
         states = read_button_states()
 
-        if states[K1_pin] == GPIO.LOW:  # K1 button pressed
+        if states[K1_pin] == GPIO.LOW and button_state['K1'] == False:  # K1 button pressed
+            button_state['K1'] = True
             print("K1 pressed - Killing main.py script.")
             kill_main_script(main)
 
-        if states[K2_pin] == GPIO.LOW:  # K2 button pressed
+        if states[K2_pin] == GPIO.LOW and button_state['K2'] == False:  # K2 button pressed
+            button_state['K2'] = True
             print("K2 pressed - Running main.py.")
             main = run_main_script()
 
-        if states[K3_pin] == GPIO.LOW:  # K3 button pressed
+        if states[K3_pin] == GPIO.LOW and button_state['K3'] == False:  # K3 button pressed
+            button_state['K3'] = True
             print("K3 pressed - Running git pull and restarting script.")
             git_pull()
             GPIO.cleanup()  # Clean up GPIO settings
