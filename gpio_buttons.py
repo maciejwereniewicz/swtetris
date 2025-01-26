@@ -33,9 +33,11 @@ def kill_main_script(main):
     if main:
         main.kill()
 
-def run_main_script():
-    # Run the main.py script in the background with correct argument formatting
-    return subprocess.Popen(["python", "/home/malo/Desktop/swtetris/main.py"])
+def restart_script():
+    # Open a new terminal and run the button_control.sh script
+    subprocess.Popen(['gnome-terminal', '--', 'bash', '/home/malo/Desktop/swtetris/button_control.sh'])
+    sys.exit()  # Exit the current instance of the script
+
 
     
 
