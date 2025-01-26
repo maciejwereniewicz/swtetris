@@ -43,9 +43,7 @@ def run_main_script():
 
 def git_pull():
     # Change directory and pull the latest from git
-    subprocess.run(["bash", "-c", "cd /home/malo/Desktop/swtetris && git pull"],
-                   shell=True
-    )
+    subprocess.run(["bash", "-c", "cd /home/malo/Desktop/swtetris && git pull"])
 
 def restart_script():
     # Restart the current script after git pull
