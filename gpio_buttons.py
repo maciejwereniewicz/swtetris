@@ -28,8 +28,12 @@ def read_button_states():
 def kill_python_processes():
     # Avoid killing this script by excluding it from the kill command
     pid = os.getpid()
-    # Send SIGTERM signal to all Python processes except the current one
-    os.system(f"pkill -f python3 | grep -v {pid} | xargs kill -SIGTERM")
+    # Get all Python 3 process IDs, exclude the current script's PID, then kill them
+    processes = subprocess.check_output("pgrep -f python3", shell=True).decode().splitlines()
+    for process_pid in processes:
+        if process_pid != str(pid):  # Make sure not to kill the current script
+            os.kill(int(process_pid), signal.SIGTERM)  # Send SIGTERM to kill the process
+
 
 def run_main_script():
     # Run the main.py script in the background
