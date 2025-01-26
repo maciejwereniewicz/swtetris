@@ -37,9 +37,11 @@ p.start(50)
 p.ChangeDutyCycle(0)
 
 def play_sound(sound):
+    p.ChangeDutyCycle(50)
     p.ChangeFrequency(notes[sound])
     sleep(0.35)
     p.ChangeFrequency(10)
+    p.ChangeDutyCycle(0)
 
 def play_song(song):
 	for sound in song:
