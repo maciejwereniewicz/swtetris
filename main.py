@@ -28,6 +28,9 @@ tet2 = ["E","C","D","B","C","A","Ab","B",
 
 tetris = [*tet1,*tet1,*tet2,*tet1,*tet1,*tet2]
 
+rotate = ["E"]
+
+
 p.start(50)
 
 def play_sound(sound):
@@ -40,7 +43,7 @@ def play_song(song):
 	for sound in song:
 		play_sound(sound)
 		
-for i in notes.keys:
+for i in ['C','D','E','F','G','A','B','Ab']:
 	print(i)
 	play_sound(i)
 	sleep(0.5)
