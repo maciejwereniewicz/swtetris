@@ -35,7 +35,7 @@ def kill_main_script(main):
 
 def restart_script():
     # Open a new terminal and run the button_control.sh script
-    subprocess.Popen(['gnome-terminal', '--', 'bash', '/home/malo/Desktop/swtetris/button_control.sh'])
+    subprocess.Popen(['gnome-terminal', '--', 'sh', '/home/malo/Desktop/swtetris/button_control.sh'])
     sys.exit()  # Exit the current instance of the script
 
 
