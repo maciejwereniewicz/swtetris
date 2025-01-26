@@ -70,6 +70,12 @@ try:
             git_pull()
             GPIO.cleanup()  # Clean up GPIO settings
             restart_script()  # Restart the script after git pull
+        if states[K1_pin]:
+            button_state['K1'] = False
+        if states[K2_pin]:
+            button_state['K2'] = False
+        if states[K3_pin]:
+            button_state['K3'] = False
 
         time.sleep(0.2)  # Add a small delay to debounce the buttons
 
