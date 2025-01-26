@@ -34,12 +34,12 @@ line = ['B', 'D']
 
 
 p.start(50)
-p.ChangeFrequency(0)
+p.ChangeDutyCycle(0)
 
 def play_sound(sound):
     p.ChangeFrequency(notes[sound])
     sleep(0.35)
-    p.ChangeFrequency(0)
+    p.ChangeFrequency(10)
 
 def play_song(song):
 	for sound in song:
