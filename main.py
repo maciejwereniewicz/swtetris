@@ -280,7 +280,6 @@ def draw_grid(surface, grid):
             pygame.draw.line(surface, (128, 128, 128), (sx + j * block_size, sy), (sx + j * block_size, sy + play_height))
 
 def clear_rows(grid, locked):
-    global particles
     inc = 0
     full_rows = []
 
@@ -291,10 +290,6 @@ def clear_rows(grid, locked):
     for row in full_rows:
         inc += 1
         for col in range(len(grid[row])):
-            particles.append(
-                Particle(top_left_x + col * block_size + block_size // 2,
-                         top_left_y + row * block_size + block_size // 2, (255, 255, 255))
-            )
             try:
                 del locked[(col, row)]
             except KeyError:
