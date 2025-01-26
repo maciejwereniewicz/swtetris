@@ -19,7 +19,7 @@ tet1 = ["E", 0.5,"B","C","D","C","B","A",
 tet2 = ["E","C","D","B","C","A","Ab","B",
 		  "E","C","D","B","C","E","A","Ab",
 		  0.5,]
-tetris = [tet1,tet1,tet2,tet1,tet1,tet2]
+tetris = [*tet1,*tet1,*tet2,*tet1,*tet1,*tet2]
 p.start(50)
 
 def play_sound(sound):
