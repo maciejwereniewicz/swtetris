@@ -140,10 +140,15 @@ def check_lost(positions):
 def get_shape():
     return Piece(5, 0, random.choice(shapes))
 
-def draw_text_middle(text, size, color, surface):
+def draw_highscore(text, size, color, surface):
     font = pygame.font.SysFont('comicsans', size, bold=True)
     label = font.render(text, 1, color)
-    surface.blit(label, (top_left_x + play_width / 2 - (label.get_width() / 2), top_left_y + play_height / 2 - label.get_height() / 2))
+    surface.blit(label, (250,50))
+
+def draw_text_middle(text, size, color, surface, index=0):
+    font = pygame.font.SysFont('comicsans', size, bold=True)
+    label = font.render(text, 1, color)
+    surface.blit(label, (250,200+index*25))
 
 def draw_grid(surface, grid):
     sx = top_left_x
@@ -211,10 +216,10 @@ def draw_window(surface, grid, score=0, high_score=0, current_piece=None, time_e
         for j in range(len(grid[i])):
             pygame.draw.rect(surface, grid[i][j], (top_left_x + j * block_size, top_left_y + i * block_size, block_size, block_size))
 
-    pygame.draw.rect(surface, (255, 0, 0), (top_left_x, top_left_y, play_width, play_height), 5)
+    pygame.draw.rect(surface, (255, 0, 0), (top_left_x, top_left_y, 200, 400), 5)
 
-    draw_text_middle(f"Score: {score}", 20, (255, 255, 255), surface)
-    draw_text_middle(f"High Score: {high_score}", 20, (255, 255, 255), surface)
+    draw_text_middle(f"Score: {score}", 20, (255, 255, 255), surface, 1)
+    draw_highscore(f"High Score: {high_score}", 20, (255, 255, 255), surface)
 
 def main():
     locked_positions = {}
